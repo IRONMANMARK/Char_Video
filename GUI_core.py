@@ -267,7 +267,9 @@ class PlayerWindow(pyglet.window.Window):
         self.clear()
         # print(self.player.time, self.player.source.duration)
         if self.player.time >= self.player.source.duration - 1:
-            sys.exit()
+            self.close()
+            GUI()
+            # sys.exit()
         else:
             pass
         # Video
@@ -297,10 +299,8 @@ def MAIN(filename):
 
     window.set_size(size[0], size[1])
     window.set_visible(True)
-
     window.gui_update_state()
     player.play()
-
     pyglet.app.run()
 def GUI():
     winn = tk.Tk()
@@ -324,10 +324,7 @@ def GUI():
     button.pack()
     canvas.create_text(300, 80, text='Video Converter', font=("Helvetica", 50), fill='#5555FF')
     canvas.create_window(200, 200, width=200, height=40,window=button)
-
-
-
-
     winn.mainloop()
+
 if __name__ == '__main__':
     GUI()
