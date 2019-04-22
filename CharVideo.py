@@ -1,10 +1,14 @@
+'''
+This is the main function for video to convert to char video
+Author: Zichen Liu
+'''
 import os
 import cv2
 import subprocess
 import time
 import platform
 from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
-from PIL import Image, ImageFont, ImageDraw
+import img2chars
 
 
 def MAIN(filename):
@@ -29,14 +33,9 @@ def MAIN(filename):
     vw = cv2.VideoWriter('out.mp4', fourcc, int(fps), size, True)
     while vc.isOpened():
         status, frame = vc.read()
-        # ##########################
-        #                          #
-        #   Add main function here #
-        #                          #
-        # ##########################
         if status is True:
             try:
-                vw.write(frame)
+                vw.write(img2chars.img2chars(frame, put_original=True))
             except:
                 break
         else:
