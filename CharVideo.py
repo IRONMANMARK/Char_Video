@@ -5,6 +5,7 @@ import time
 import platform
 from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
 from PIL import Image, ImageFont, ImageDraw
+form img2chars import *
 
 
 def MAIN(filename):
@@ -29,14 +30,9 @@ def MAIN(filename):
     vw = cv2.VideoWriter('out.mp4', fourcc, int(fps), size, True)
     while vc.isOpened():
         status, frame = vc.read()
-        # ##########################
-        #                          #
-        #   Add main function here #
-        #                          #
-        # ##########################
         if status is True:
             try:
-                vw.write(frame)
+                vw.write(img2chars(frame))
             except:
                 break
         else:
