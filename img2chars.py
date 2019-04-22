@@ -44,7 +44,8 @@ def img2chars(
         chars_width=None,
         put_original=False,
         loc='upper_left',
-        original_size=2
+        original_size=2,
+        test=False
 ):
     """
     A help function that transfer one frame of video into a char represented frame
@@ -125,5 +126,23 @@ def img2chars(
                 r, g, b = img_put.getpixel((x, y))
                 img_chars.putpixel(position, (r, g, b))
 
-    # return img_chars
-    return np.array(img_chars)
+    img_chars = img_chars.resize(img_original.size)
+
+    if test:
+        return img_chars
+    else:
+        return np.array(img_chars)
+
+
+if __name__ == '__main__':
+    import cv2
+    from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
+    filename = 'video_data/GokurakuJodoODMT_YouTube.flv'
+    vc = cv2.VideoCapture(filename)
+
+    for i in range(800):
+        a, frame = vc.read()
+
+    chars = img2chars(frame, put_original=True, original_size=1.5, loc='upper_left', test=True)
+
+    chars.save('test.png')
