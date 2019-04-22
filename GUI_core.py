@@ -1,7 +1,10 @@
+'''
+This is the main GUI interface, and the video player interface
+Author: Zichen Liu
+'''
 from pyglet.gl import *
 import pyglet
 from pyglet.window import key
-import sys
 import cv2
 import tkinter as tk
 from PIL import ImageTk, Image
@@ -9,6 +12,14 @@ import tkinter.filedialog as tkf
 import CharVideo
 
 def draw_rect(x, y, width, height):
+    '''
+    create a rectangle used for button
+    :param x: x cord
+    :param y: y cord
+    :param width: the width of the rectangle
+    :param height: the height of the rectangle
+    :return: no return
+    '''
     glBegin(GL_LINE_LOOP)
     glVertex2f(x, y)
     glVertex2f(x + width, y)
@@ -18,6 +29,9 @@ def draw_rect(x, y, width, height):
 
 
 class Control(pyglet.event.EventDispatcher):
+    '''
+    This is the class for capture the mouse event.
+    '''
     x = y = 0
     width = height = 10
 
@@ -37,6 +51,9 @@ class Control(pyglet.event.EventDispatcher):
 
 
 class Button(Control):
+    '''
+    This is the class for creating the button and capture the mouse event.
+    '''
     charged = False
 
     def draw(self):
@@ -59,11 +76,14 @@ class Button(Control):
             self.dispatch_event('on_press')
         self.charged = False
 
-
+# register the button event
 Button.register_event_type('on_press')
 
 
 class TextButton(Button):
+    '''
+    The class for the position of the text in the button
+    '''
     def __init__(self, *args, **kwargs):
         super(TextButton, self).__init__(*args, **kwargs)
         self._text = pyglet.text.Label('', anchor_x='center', anchor_y='center')
@@ -81,6 +101,9 @@ class TextButton(Button):
 
 
 class Slider(Control):
+    '''
+    This is the class for the control slide. and capture the click of the mouse
+    '''
     THUMB_WIDTH = 6
     THUMB_HEIGHT = 10
     GROOVE_HEIGHT = 2
@@ -110,13 +133,17 @@ class Slider(Control):
         self.release_events()
         self.dispatch_event('on_end_scroll')
 
-
+# register the slide
 Slider.register_event_type('on_begin_scroll')
 Slider.register_event_type('on_end_scroll')
 Slider.register_event_type('on_change')
 
 
 class PlayerWindow(pyglet.window.Window):
+    '''
+    This is the class for create window for the video player. and update mouse click event. and detect if the video has
+    played to the end.
+    '''
     GUI_WIDTH = 400
     GUI_HEIGHT = 40
     GUI_PADDING = 4
@@ -285,43 +312,62 @@ class PlayerWindow(pyglet.window.Window):
             control.draw()
 
 def MAIN(filename):
+    '''
+    This is the main function to cteate the video player.
+    :param filename: the vodeo file you want to play
+    :return: no return
+    '''
     vc = cv2.VideoCapture(filename)
+    # get the size of the video frame
     size = (int(vc.get(cv2.CAP_PROP_FRAME_WIDTH)), int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT)))
     vc.release()
+    # create a player
     player = pyglet.media.Player()
     window = PlayerWindow(player)
-
+    # load the source
     source = pyglet.media.load(filename)
     player.queue(source)
-
+    # update the window class and set size for the player
     window.gui_update_source()
     window.set_default_video_size()
-
     window.set_size(size[0], size[1])
     window.set_visible(True)
     window.gui_update_state()
+    # run the player
     player.play()
     pyglet.app.run()
 def GUI():
+    '''
+    This is the main function for the GUI interface
+    :return: no return
+    '''
     winn = tk.Tk()
+    # create a canvas
     canvas = tk.Canvas(winn, width=1100, height=700, bd=0, highlightthickness=0)
     imgpath = 'background.gif'
     img = Image.open(imgpath)
     photo = ImageTk.PhotoImage(img)
+    # draw image on the canvas
     canvas.create_image(550, 350, image=photo)
     canvas.pack()
     def click():
+        '''
+        this is the main function happened when click the button
+        :return: no return
+        '''
         filename = tkf.askopenfilename()
         try:
-            out, size = CharVideo.MAIN(filename)
             winn.destroy()
+            out, size = CharVideo.MAIN(filename)
             MAIN(out)
             # canvas.config(text='Done')
         except:
             pass
+    # create a button
     button = tk.Button(winn, text='Choose video file', bg='#FFE4C4', font=('Helvetica 10 bold'), width=8, height=2,
                       command=click)
     button.pack()
+    # create text on the canvas
     canvas.create_text(300, 80, text='Video Converter', font=("Helvetica", 50), fill='#5555FF')
     canvas.create_window(200, 200, width=200, height=40,window=button)
     winn.mainloop()
