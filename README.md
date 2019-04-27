@@ -65,7 +65,7 @@ This file includes the code to build a video player. And all of the functions an
 ## HOW TO USE
 On any command line or bash shell prompt, type
 
-```python CUI_core.py```
+```python GUI_core.py```
 
 Then a GUI window will pop up. Click the "Choose video file" button and choose any video file you want to convert to text-based video.
 After processing, the video player will play the new generated video automatically.
