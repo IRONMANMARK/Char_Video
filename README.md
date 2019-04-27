@@ -1,4 +1,4 @@
-# ASCII art
+#  Text-based Visual Art
 A programs allow one to automatically convert a video to text characters.
 
 ### Author
