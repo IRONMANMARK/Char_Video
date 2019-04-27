@@ -17,7 +17,7 @@ Wenye Deng, Wenhao Gao, Zichen Liu
 1. System: Linux or Windows (Mac's version on its way...)
 2. Python 3.7
 3. Package need to install: ffmpeg, Avbin, pyglet, pillows, opencv-python, numpy
-   * Avbin download from website [Avbin Downloads](https://avbin.github.io/AVbin/Download.html)
+   * Avbin download from website: [Avbin Downloads](https://avbin.github.io/AVbin/Download.html)
    * The others can be installed via pip
 
 ## Getting Started
@@ -64,7 +64,9 @@ This file includes the code to build a video player. And all of the functions an
 
 ## HOW TO USE
 On any command line or bash shell prompt, type
+
 ```python CUI_core.py```
+
 Then a GUI window will pop up. Click the "Choose video file" button and choose any video file you want to convert to text-based video.
 After processing, the video player will play the new generated video automatically.
 Enjoy it!
