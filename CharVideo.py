@@ -25,11 +25,7 @@ def MAIN(filename):
             command = "ffmpeg -i %s -vn audio.mp3" % filename
         else:
             command = "ffmpeg -i %s -vn audio.mp3" % filename
-        p = subprocess.Popen(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        while p.poll() is None:
-            line = p.stdout.readline()
-            line = line.strip()
-            print(line)
+        subprocess.call(command, shell=True)
     else:
         pass
     # create video writer
@@ -73,11 +69,7 @@ def combine_audio_and_video(filename):
             command = "ffmpeg -i out.mp4 -i audio.mp3 %s" % final_name
         else:
             command = "ffmpeg -i out.mp4 -i audio.mp3 %s" % final_name
-        p = subprocess.Popen(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        while p.poll() is None:
-            line = p.stdout.readline()
-            line = line.strip()
-            print(line)
+        subprocess.call(command, shell=True)
     else:
         pass
     return final_name
